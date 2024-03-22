@@ -1,0 +1,30 @@
+diff --git a/node_modules/react-native-agora/lib/typescript/src/AgoraRtcRenderView.d.ts b/node_modules/react-native-agora/lib/typescript/src/AgoraRtcRenderView.d.ts
+index 132397b..3c6bc68 100644
+--- a/node_modules/react-native-agora/lib/typescript/src/AgoraRtcRenderView.d.ts
++++ b/node_modules/react-native-agora/lib/typescript/src/AgoraRtcRenderView.d.ts
+@@ -41,7 +41,7 @@ export declare class RtcSurfaceView extends IAgoraRtcRenderView<RtcSurfaceViewPr
+     /**
+      * @ignore
+      */
+-    get view(): import("react-native").HostComponent<import("./specs/AgoraRtcSurfaceViewNativeComponent").NativeProps>;
++    get view(): import("react-native").HostComponent<import("react-native-agora/lib/typescript/src/specs/AgoraRtcSurfaceViewNativeComponent").NativeProps>;
+ }
+ /**
+  * The RtcTextureView class.
+@@ -54,6 +54,6 @@ export declare class RtcTextureView extends IAgoraRtcRenderView<RtcRendererViewP
+     /**
+      * @ignore
+      */
+-    get view(): import("react-native").HostComponent<import("./specs/AgoraRtcTextureViewNativeComponent").NativeProps>;
++    get view(): import("react-native").HostComponent<import("react-native-agora/lib/typescript/src/specs/AgoraRtcTextureViewNativeComponent").NativeProps>;
+ }
+ //# sourceMappingURL=AgoraRtcRenderView.d.ts.map
+\ No newline at end of file
+diff --git a/node_modules/react-native-agora/src/specs/AgoraRtcSurfaceViewNativeComponent.tsx b/node_modules/react-native-agora/src/specs/AgoraRtcSurfaceViewNativeComponent.ts
+similarity index 100%
+rename from node_modules/react-native-agora/src/specs/AgoraRtcSurfaceViewNativeComponent.tsx
+rename to node_modules/react-native-agora/src/specs/AgoraRtcSurfaceViewNativeComponent.ts
+diff --git a/node_modules/react-native-agora/src/specs/AgoraRtcTextureViewNativeComponent.tsx b/node_modules/react-native-agora/src/specs/AgoraRtcTextureViewNativeComponent.ts
+similarity index 100%
+rename from node_modules/react-native-agora/src/specs/AgoraRtcTextureViewNativeComponent.tsx
+rename to node_modules/react-native-agora/src/specs/AgoraRtcTextureViewNativeComponent.ts
