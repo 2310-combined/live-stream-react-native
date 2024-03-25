@@ -43,6 +43,9 @@
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>NSMotionUsageDescription</key>
+<string>Your message to user when the app needs to access the device's orientation</string>
+
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
