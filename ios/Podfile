@@ -1,4 +1,6 @@
 # Resolve react_native_pods.rb with node to allow for hoisting
+
+ENV['NO_FLIPPER'] = '1'
 require Pod::Executable.execute_command('node', ['-p',
   'require.resolve(
     "react-native/scripts/react_native_pods.rb",
@@ -26,8 +28,10 @@ if linkage != nil
 end
 
 target 'AwesomeProject' do
+  pod 'FirebaseAnalytics'
   config = use_native_modules!
-
+  use_frameworks! :linkage => :static
+  $RNFirebaseAsStaticFramework = true
   use_react_native!(
     :path => config[:reactNativePath],
     # Enables Flipper.

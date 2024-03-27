@@ -3,6 +3,8 @@ import {StyleSheet, View} from 'react-native';
 import MapView, {Marker} from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 
+import database from '@react-native-firebase/database';
+
 export default function LiveMap() {
   const [region, setRegion] = useState(null);
   const [locations, setLocations] = useState([]);
@@ -12,10 +14,8 @@ export default function LiveMap() {
       Geolocation.requestAuthorization();
 
       // Set up a watcher to capture the longitude and latitude every 10 seconds
-      const watchId = Geolocation.watchPosition(
-        position => {
-          const {latitude, longitude, speed, heading, timestamp, altitude} =
-            position.coords;
+      const watchId = Geolocation.watchPosition( position => {
+          const {latitude, longitude, speed, heading, timestamp, altitude} = position.coords;
 
           // Update the locations array with the new location
           setLocations(prevLocations => [
@@ -30,6 +30,17 @@ export default function LiveMap() {
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           });
+
+          const locationRef = database().ref('locations');
+        locationRef.push({
+          latitude,
+          longitude,
+          speed,
+          heading,
+          timestamp,
+          altitude,
+        });
+
         },
         error => console.log(error.message),
         {
@@ -51,9 +62,9 @@ export default function LiveMap() {
   };
 
   // Log the trip every time the locations state changes
-  useEffect(() => {
-    logTrip();
-  }, [locations]);
+  // useEffect(() => {
+  //   logTrip();
+  // }, [locations]);
 
   return (
     <View style={styles.container}>

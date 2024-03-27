@@ -2,6 +2,8 @@
 import { LiveStream } from './Components/LiveStream';
 import {SafeAreaView, StyleSheet, View} from 'react-native';
 
+
+
 export default function App() {
   return (
     <SafeAreaView style={styles.safeView}>
