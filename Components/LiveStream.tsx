@@ -19,10 +19,10 @@ import LiveMap from './LiveMap';
 const appId = '1fd28176ade84ba0a3dd5a788c44469a';
 const channelName = 'test';
 const token =
-  '007eJxTYFjP/f//9wVsx1Zd2PlB8H/Fi9JLKlLuP7l+W+9uu2S9685aBQbDtBQjC0Nzs8SUVAuTpESDROOUFNNEcwuLZBMTEzPLxI9vmNIaAhkZ1OT3MTBCIYjPwlCSWlzCwAAAjTYjLQ==';
+  '007eJxTYHCVD1u3/P+hXZERPw28vziY89SX6DRU6z5/uPzErvSY9AkKDIZpKUYWhuZmiSmpFiZJiQaJxikpponmFhbJJiYmZpaJT1jZ0xoCGRke3P7MwAiFID4LQ0lqcQkDAwCEhiC9';
 const uid = 0;
 
-export const LiveStream = () => {
+export default function LiveStream () {
   const agoraEngineRef = useRef<IRtcEngine>(); // Agora engine instance
   const [isJoined, setIsJoined] = useState(false); // Indicates if the local user has joined the channel
   const [isHost, setIsHost] = useState(false); // Client role
