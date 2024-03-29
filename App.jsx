@@ -1,15 +1,19 @@
-import LiveMap from './Components/LiveMap';
-import LiveStream from './Components/LiveStream';
 import {SafeAreaView, StyleSheet, View} from 'react-native';
 import LandingPage from './Screens/LandingPage';
+import StreamingPage from './Screens/StreamingPage';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <View style={styles.safeView}>
-      <LandingPage />
-      {/* <LiveMap />
-      <LiveStream /> */}
-    </View>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen options={{headerShown: false}} name='Home' component={LandingPage} />
+          <Stack.Screen options={{headerTitle: ''}} name='StreamingPage' component={StreamingPage} />
+        </Stack.Navigator>
+      </NavigationContainer>
   );
 }
 

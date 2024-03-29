@@ -26,8 +26,8 @@ export default function LiveMap() {
           latitude,
           longitude,
 
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
+          latitudeDelta: 0.0005,
+          longitudeDelta: 0.0005,
         });
       },
       error => console.log(error.message),

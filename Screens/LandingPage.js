@@ -1,8 +1,11 @@
 import {Text, StyleSheet, View, Image, StatusBar} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {CustomButton} from '../Components/CustomButton';
+import {useNavigation} from '@react-navigation/native';
 
 const LandingPage = () => {
+  const navigation = useNavigation();
+
   return (
     <>
       <StatusBar barStyle="dark-content" />
@@ -47,8 +50,16 @@ const LandingPage = () => {
             <Text style={styles.title}>On-The-Go</Text>
           </View>
           <View>
-            <CustomButton style={styles.button} name={'Join as Host'} />
-            <CustomButton style={styles.button} name={'Join as Viewer'} />
+            <CustomButton
+              style={styles.button}
+              name={'Join as Host'}
+              onPress={() => navigation.navigate('StreamingPage')}
+            />
+            <CustomButton
+              style={styles.button}
+              name={'Join as Viewer'}
+              onPress={() => navigation.navigate('StreamingPage')}
+            />
           </View>
         </View>
 
