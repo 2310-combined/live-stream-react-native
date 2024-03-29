@@ -26,11 +26,3 @@ const styles = StyleSheet.create({
     height: '100%',
   },
 });
-  safeView: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    alignContent: 'center',
-    height: '100%',
-  },
-});
