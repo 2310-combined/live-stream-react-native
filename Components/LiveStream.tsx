@@ -1,12 +1,6 @@
 import React, {useRef, useState, useEffect} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
-import { Platform } from 'react-native';
+import {SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {Platform} from 'react-native';
 import {
   ClientRoleType,
   createAgoraRtcEngine,
@@ -15,17 +9,18 @@ import {
   ChannelProfileType,
 } from 'react-native-agora';
 import LiveMap from './LiveMap';
+import {CustomButton} from './CustomButton';
+import {useNavigation} from '@react-navigation/native';
 
 const appId = '1fd28176ade84ba0a3dd5a788c44469a';
 const channelName = 'test';
 const token =
-  '007eJxTYFjP/f//9wVsx1Zd2PlB8H/Fi9JLKlLuP7l+W+9uu2S9685aBQbDtBQjC0Nzs8SUVAuTpESDROOUFNNEcwuLZBMTEzPLxI9vmNIaAhkZ1OT3MTBCIYjPwlCSWlzCwAAAjTYjLQ==';
+  '007eJxTYLjeI/Znrt5vsUObX5nJbq8/dznOXHTSH0aBl9Uc8z66qTEqMBimpRhZGJqbJaakWpgkJRokGqekmCaaW1gkm5iYmFkmGgVxpDUEMjIo9pxlZmSAQBCfhaEktbiEgQEATEMemw==';
 const uid = 0;
 
-export const LiveStream = () => {
+export const LiveStream = ({setIsHost, isJoined, isHost, setIsJoined}) => {
+  const navigation = useNavigation();
   const agoraEngineRef = useRef<IRtcEngine>(); // Agora engine instance
-  const [isJoined, setIsJoined] = useState(false); // Indicates if the local user has joined the channel
-  const [isHost, setIsHost] = useState(false); // Client role
   const [remoteUid, setRemoteUid] = useState(0); // Uid of the remote user
   const [message, setMessage] = useState(''); // Message to the user
 
@@ -33,6 +28,10 @@ export const LiveStream = () => {
     // Initialize Agora engine when the app starts
     setupVideoSDKEngine();
   });
+
+  useEffect(() => {
+    join();
+  }, []);
 
   const setupVideoSDKEngine = async () => {
     try {
@@ -66,33 +65,22 @@ export const LiveStream = () => {
     }
   };
 
-  const joinAsHost = async () => {
-    if (isJoined) return;
+  const join = async () => {
+    // if (isJoined) return;
     try {
       agoraEngineRef.current?.setChannelProfile(
         ChannelProfileType.ChannelProfileLiveBroadcasting,
       );
-      agoraEngineRef.current?.startPreview();
-      agoraEngineRef.current?.joinChannel(token, channelName, uid, {
-        clientRoleType: ClientRoleType.ClientRoleBroadcaster,
-      });
-
-      setIsHost(true);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  const joinAsAudience = async () => {
-    if (isJoined) return;
-    try {
-      agoraEngineRef.current?.setChannelProfile(
-        ChannelProfileType.ChannelProfileLiveBroadcasting,
-      );
-      agoraEngineRef.current?.joinChannel(token, channelName, uid, {
-        clientRoleType: ClientRoleType.ClientRoleAudience,
-      });
-      setIsHost(false);
+      if (isHost) {
+        agoraEngineRef.current?.startPreview();
+        agoraEngineRef.current?.joinChannel(token, channelName, uid, {
+          clientRoleType: ClientRoleType.ClientRoleBroadcaster,
+        });
+      } else {
+        agoraEngineRef.current?.joinChannel(token, channelName, uid, {
+          clientRoleType: ClientRoleType.ClientRoleAudience,
+        });
+      }
     } catch (e) {
       console.log(e);
     }
@@ -103,53 +91,58 @@ export const LiveStream = () => {
       agoraEngineRef.current?.leaveChannel();
       setRemoteUid(0);
       setIsJoined(false);
+      setIsHost(false);
       showMessage('You left the channel');
+      navigation.navigate('Home');
     } catch (e) {
       console.log(e);
     }
   };
 
   return (
-    <SafeAreaView style={styles.main}>
-      {isJoined && <LiveMap />}
-      <View style={styles.btnContainer}>
-        <Text onPress={joinAsHost} style={styles.button}>
+    <View style={styles.main}>
+      <View style={styles.mapContainer}>{isJoined && <LiveMap />}</View>
+      <View style={[styles.btnContainer, {width: isHost ? '40%' : '30%'}]}>
+        {/* <Text onPress={join} style={styles.button}>
           Join as Host
         </Text>
-        <Text onPress={joinAsAudience} style={styles.button}>
+        <Text onPress={join} style={styles.button}>
           Join as Viewer
-        </Text>
-        <Text onPress={leave} style={styles.button}>
+        </Text> */}
+        <CustomButton
+          onPress={join}
+          name={isHost ? 'End Stream' : 'Leave'}
+          onPress={leave}
+        />
+        {/* <Text onPress={leave} style={styles.button}>
           Leave
-        </Text>
+        </Text> */}
       </View>
-      <ScrollView
+      <View
         style={styles.scroll}
         contentContainerStyle={styles.scrollContainer}>
-        {isJoined && isHost ? (
+        {isJoined && isHost && (
           <React.Fragment key={0}>
             <RtcSurfaceView canvas={{uid: 0}} style={styles.videoView} />
-            <Text>Local user uid: {uid}</Text>
           </React.Fragment>
-        ) : (
-          <Text>{isHost ? 'Join a channel' : ''}</Text>
         )}
-        {isJoined && !isHost && remoteUid !== 0 ? (
-          <React.Fragment key={remoteUid}>
-            <RtcSurfaceView
-              canvas={{uid: remoteUid}}
-              style={styles.videoView}
-            />
-            <Text>Remote user uid: {remoteUid}</Text>
-          </React.Fragment>
-        ) : (
-          <Text>
-            {isJoined && !isHost ? 'Waiting for a remote user to join' : ''}
-          </Text>
+        {isJoined && !isHost && remoteUid !== 0 && (
+          <View style={styles.scroll}>
+            <React.Fragment key={remoteUid}>
+              <RtcSurfaceView
+                canvas={{uid: remoteUid}}
+                style={styles.videoView}
+              />
+              <Text style={styles.noHostText}>
+                Waiting for a host to start a stream
+              </Text>
+              {/* <Text>Remote user uid: {remoteUid}</Text> */}
+            </React.Fragment>
+          </View>
         )}
-        <Text style={styles.info}>{message}</Text>
-      </ScrollView>
-    </SafeAreaView>
+        {/* <Text style={styles.info}>{message}</Text> */}
+      </View>
+    </View>
   );
 
   function showMessage(msg: string) {
@@ -158,23 +151,56 @@ export const LiveStream = () => {
 };
 
 const styles = StyleSheet.create({
-  button: {
-    paddingHorizontal: 25,
-    paddingVertical: 4,
-    fontWeight: 'bold',
-    color: '#ffffff',
-    backgroundColor: '#0055cc',
-    margin: 5,
+  main: {
+    flex: 1,
+    alignItems: 'center',
+    width: '100%',
   },
-  main: {flex: 1, alignItems: 'center'},
-  scroll: {flex: 1, backgroundColor: '#ddeeff', width: '100%'},
-  scrollContainer: {alignItems: 'center'},
-  videoView: {width: '90%', height: 200},
-  btnContainer: {flexDirection: 'row', justifyContent: 'center'},
-  head: {fontSize: 20},
-  info: {backgroundColor: '#ffffe0', paddingHorizontal: 8, color: '#0000ff'},
+  mapContainer: {
+    width: '100%',
+    height: '25%',
+  },
+  btnContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    position: 'absolute',
+    zIndex: 999,
+    bottom: '5%',
+  },
+  // button: {
+  //   paddingHorizontal: 25,
+  //   paddingVertical: 4,
+  //   fontWeight: 'bold',
+  //   color: '#ffffff',
+  //   backgroundColor: '#0055cc',
+  //   margin: 5,
+  // },
+  scroll: {
+    backgroundColor: '#ffffff',
+    width: '100%',
+    flex: 1,
+  },
+  scrollContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  videoView: {
+    width: '100%',
+    height: '100%',
+  },
+  head: {
+    fontSize: 20,
+  },
+  info: {
+    backgroundColor: '#ffffe0',
+    paddingHorizontal: 8,
+    color: '#0000ff',
+  },
+  noHostText: {
+    fontSize: 90,
+  },
 });
+
 function getPermission() {
   throw new Error('Function not implemented.');
 }
-
