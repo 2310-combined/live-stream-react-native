@@ -3,16 +3,14 @@ import LandingPage from './Screens/LandingPage';
 import StreamingPage from './Screens/StreamingPage';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import firebase from '@react-native-firebase/app';
+
 
 const Stack = createNativeStackNavigator();
 
 
 export default function App() {
   
-  if (!firebase.apps.length) {
-    firebase.initializeApp();
-   }
+  
 
   return (
       <NavigationContainer>
