@@ -27,8 +27,8 @@ export default function LiveMap() {
             latitude,
             longitude,
 
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
+            latitudeDelta: 0.0005,
+            longitudeDelta: 0.0005,
           });
         },
         error => console.log(error.message),
@@ -56,7 +56,7 @@ export default function LiveMap() {
   }, [locations]);
 
   return (
-    <View style={styles.container}>
+    <View>
       <MapView
         style={styles.map}
         region={region}
@@ -69,15 +69,8 @@ export default function LiveMap() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-  },
   map: {
-    width: 300,
-    height: 300,
-    borderColor: '#DDD',
-    borderWidth: 1,
+    width: '100%',
+    height: '100%',
   },
 });

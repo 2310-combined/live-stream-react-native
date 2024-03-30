@@ -1,12 +1,6 @@
 import React, {useRef, useState, useEffect} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
-import { Platform } from 'react-native';
+import {SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {Platform} from 'react-native';
 import {
   ClientRoleType,
   createAgoraRtcEngine,
@@ -15,6 +9,7 @@ import {
   ChannelProfileType,
 } from 'react-native-agora';
 import LiveMap from './LiveMap';
+import {CustomButton} from './CustomButton';
 import {useNavigation} from '@react-navigation/native';
 
 const appId = '1fd28176ade84ba0a3dd5a788c44469a';
@@ -23,11 +18,9 @@ const token =
   '007eJxTYHCVD1u3/P+hXZERPw28vziY89SX6DRU6z5/uPzErvSY9AkKDIZpKUYWhuZmiSmpFiZJiQaJxikpponmFhbJJiYmZpaJT1jZ0xoCGRke3P7MwAiFID4LQ0lqcQkDAwCEhiC9';
 const uid = 0;
 
-export const LiveStream = () => {
+export const LiveStream = ({isJoined, isHost, setIsJoined}) => {
   const navigation = useNavigation();
   const agoraEngineRef = useRef<IRtcEngine>(); // Agora engine instance
-  const [isJoined, setIsJoined] = useState(false); // Indicates if the local user has joined the channel
-  const [isHost, setIsHost] = useState(false); // Client role
   const [remoteUid, setRemoteUid] = useState(0); // Uid of the remote user
   const [message, setMessage] = useState(''); // Message to the user
 
@@ -35,6 +28,10 @@ export const LiveStream = () => {
     // Initialize Agora engine when the app starts
     setupVideoSDKEngine();
   });
+
+  useEffect(() => {
+    if (isJoined) join();
+  }, []);
 
   const setupVideoSDKEngine = async () => {
     try {
@@ -102,18 +99,23 @@ export const LiveStream = () => {
   };
 
   return (
-    <SafeAreaView style={styles.main}>
-      {isJoined && <LiveMap />}
-      <View style={styles.btnContainer}>
-        <Text onPress={join} style={styles.button}>
+    <View style={styles.main}>
+      <View style={styles.videoContainer}>{isJoined && <LiveMap />}</View>
+      <View style={[styles.btnContainer, {width: isHost ? '40%' : '30%'}]}>
+        {/* <Text onPress={join} style={styles.button}>
           Join as Host
         </Text>
         <Text onPress={join} style={styles.button}>
           Join as Viewer
-        </Text>
-        <Text onPress={leave} style={styles.button}>
+        </Text> */}
+        <CustomButton
+          onPress={join}
+          name={isHost ? 'End Stream' : 'Leave'}
+          onPress={leave}
+        />
+        {/* <Text onPress={leave} style={styles.button}>
           Leave
-        </Text>
+        </Text> */}
       </View>
       <ScrollView
         style={styles.scroll}
@@ -139,9 +141,9 @@ export const LiveStream = () => {
             {isJoined && !isHost ? 'Waiting for a remote user to join' : ''}
           </Text>
         )}
-        <Text style={styles.info}>{message}</Text>
+        {/* <Text style={styles.info}>{message}</Text> */}
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 
   function showMessage(msg: string) {
@@ -150,23 +152,51 @@ export const LiveStream = () => {
 };
 
 const styles = StyleSheet.create({
-  button: {
-    paddingHorizontal: 25,
-    paddingVertical: 4,
-    fontWeight: 'bold',
-    color: '#ffffff',
-    backgroundColor: '#0055cc',
-    margin: 5,
+  main: {
+    flex: 1,
+    alignItems: 'center',
+    width: '100%',
   },
-  main: {flex: 1, alignItems: 'center'},
-  scroll: {flex: 1, backgroundColor: '#ddeeff', width: '100%'},
-  scrollContainer: {alignItems: 'center'},
-  videoView: {width: '90%', height: 200},
-  btnContainer: {flexDirection: 'row', justifyContent: 'center'},
-  head: {fontSize: 20},
-  info: {backgroundColor: '#ffffe0', paddingHorizontal: 8, color: '#0000ff'},
+  videoContainer: {
+    width: '100%',
+    height: '25%',
+  },
+  btnContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    position: 'absolute',
+    zIndex: 999,
+    bottom: 50,
+  },
+  // button: {
+  //   paddingHorizontal: 25,
+  //   paddingVertical: 4,
+  //   fontWeight: 'bold',
+  //   color: '#ffffff',
+  //   backgroundColor: '#0055cc',
+  //   margin: 5,
+  // },
+  scroll: {
+    backgroundColor: '#ddeeff',
+    width: '100%',
+  },
+  scrollContainer: {
+    alignItems: 'center',
+  },
+  videoView: {
+    width: '100%',
+    height: '100%',
+  },
+  head: {
+    fontSize: 20,
+  },
+  info: {
+    backgroundColor: '#ffffe0',
+    paddingHorizontal: 8,
+    color: '#0000ff',
+  },
 });
+
 function getPermission() {
   throw new Error('Function not implemented.');
 }
-

@@ -3,7 +3,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import {CustomButton} from '../Components/CustomButton';
 import {useNavigation} from '@react-navigation/native';
 
-const LandingPage = () => {
+const LandingPage = ({setIsJoined, setIsHost}) => {
   const navigation = useNavigation();
 
   return (
@@ -53,12 +53,20 @@ const LandingPage = () => {
             <CustomButton
               style={styles.button}
               name={'Join as Host'}
-              onPress={() => navigation.navigate('StreamingPage')}
+              onPress={() => {
+                setIsHost(true);
+                setIsJoined(true);
+                navigation.navigate('StreamingPage')
+              }}
             />
             <CustomButton
               style={styles.button}
               name={'Join as Viewer'}
-              onPress={() => navigation.navigate('StreamingPage')}
+              onPress={() => {
+                setIsHost(false);
+                setIsJoined(true);
+                navigation.navigate('StreamingPage')
+              }}
             />
           </View>
         </View>
