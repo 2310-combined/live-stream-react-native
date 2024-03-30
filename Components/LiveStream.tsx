@@ -15,10 +15,10 @@ import {useNavigation} from '@react-navigation/native';
 const appId = '1fd28176ade84ba0a3dd5a788c44469a';
 const channelName = 'test';
 const token =
-  '007eJxTYHCVD1u3/P+hXZERPw28vziY89SX6DRU6z5/uPzErvSY9AkKDIZpKUYWhuZmiSmpFiZJiQaJxikpponmFhbJJiYmZpaJT1jZ0xoCGRke3P7MwAiFID4LQ0lqcQkDAwCEhiC9';
+  '007eJxTYLjeI/Znrt5vsUObX5nJbq8/dznOXHTSH0aBl9Uc8z66qTEqMBimpRhZGJqbJaakWpgkJRokGqekmCaaW1gkm5iYmFkmGgVxpDUEMjIo9pxlZmSAQBCfhaEktbiEgQEATEMemw==';
 const uid = 0;
 
-export const LiveStream = ({isJoined, isHost, setIsJoined}) => {
+export const LiveStream = ({setIsHost, isJoined, isHost, setIsJoined}) => {
   const navigation = useNavigation();
   const agoraEngineRef = useRef<IRtcEngine>(); // Agora engine instance
   const [remoteUid, setRemoteUid] = useState(0); // Uid of the remote user
@@ -30,7 +30,7 @@ export const LiveStream = ({isJoined, isHost, setIsJoined}) => {
   });
 
   useEffect(() => {
-    if (isJoined) join();
+    join();
   }, []);
 
   const setupVideoSDKEngine = async () => {
@@ -66,7 +66,7 @@ export const LiveStream = ({isJoined, isHost, setIsJoined}) => {
   };
 
   const join = async () => {
-    if (isJoined) return;
+    // if (isJoined) return;
     try {
       agoraEngineRef.current?.setChannelProfile(
         ChannelProfileType.ChannelProfileLiveBroadcasting,
@@ -91,6 +91,7 @@ export const LiveStream = ({isJoined, isHost, setIsJoined}) => {
       agoraEngineRef.current?.leaveChannel();
       setRemoteUid(0);
       setIsJoined(false);
+      setIsHost(false);
       showMessage('You left the channel');
       navigation.navigate('Home');
     } catch (e) {
@@ -100,7 +101,7 @@ export const LiveStream = ({isJoined, isHost, setIsJoined}) => {
 
   return (
     <View style={styles.main}>
-      <View style={styles.videoContainer}>{isJoined && <LiveMap />}</View>
+      <View style={styles.mapContainer}>{isJoined && <LiveMap />}</View>
       <View style={[styles.btnContainer, {width: isHost ? '40%' : '30%'}]}>
         {/* <Text onPress={join} style={styles.button}>
           Join as Host
@@ -117,32 +118,30 @@ export const LiveStream = ({isJoined, isHost, setIsJoined}) => {
           Leave
         </Text> */}
       </View>
-      <ScrollView
+      <View
         style={styles.scroll}
         contentContainerStyle={styles.scrollContainer}>
-        {isJoined && isHost ? (
+        {isJoined && isHost && (
           <React.Fragment key={0}>
             <RtcSurfaceView canvas={{uid: 0}} style={styles.videoView} />
-            <Text>Local user uid: {uid}</Text>
           </React.Fragment>
-        ) : (
-          <Text>{isHost ? 'Join a channel' : ''}</Text>
         )}
-        {isJoined && !isHost && remoteUid !== 0 ? (
-          <React.Fragment key={remoteUid}>
-            <RtcSurfaceView
-              canvas={{uid: remoteUid}}
-              style={styles.videoView}
-            />
-            <Text>Remote user uid: {remoteUid}</Text>
-          </React.Fragment>
-        ) : (
-          <Text>
-            {isJoined && !isHost ? 'Waiting for a remote user to join' : ''}
-          </Text>
+        {isJoined && !isHost && remoteUid !== 0 && (
+          <View style={styles.scroll}>
+            <React.Fragment key={remoteUid}>
+              <RtcSurfaceView
+                canvas={{uid: remoteUid}}
+                style={styles.videoView}
+              />
+              <Text style={styles.noHostText}>
+                Waiting for a host to start a stream
+              </Text>
+              {/* <Text>Remote user uid: {remoteUid}</Text> */}
+            </React.Fragment>
+          </View>
         )}
         {/* <Text style={styles.info}>{message}</Text> */}
-      </ScrollView>
+      </View>
     </View>
   );
 
@@ -157,7 +156,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
   },
-  videoContainer: {
+  mapContainer: {
     width: '100%',
     height: '25%',
   },
@@ -166,7 +165,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     position: 'absolute',
     zIndex: 999,
-    bottom: 50,
+    bottom: '5%',
   },
   // button: {
   //   paddingHorizontal: 25,
@@ -177,11 +176,13 @@ const styles = StyleSheet.create({
   //   margin: 5,
   // },
   scroll: {
-    backgroundColor: '#ddeeff',
+    backgroundColor: '#ffffff',
     width: '100%',
+    flex: 1,
   },
   scrollContainer: {
     alignItems: 'center',
+    justifyContent: 'center',
   },
   videoView: {
     width: '100%',
@@ -194,6 +195,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffe0',
     paddingHorizontal: 8,
     color: '#0000ff',
+  },
+  noHostText: {
+    fontSize: 90,
   },
 });
 

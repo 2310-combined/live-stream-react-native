@@ -23,7 +23,7 @@ export default function App() {
         <Stack.Screen
           options={{headerTitle: '', headerShown: false}}
           name="StreamingPage"
-          children={() => <StreamingPage setIsJoined={setIsJoined} isHost={isHost} isJoined={isJoined} />}
+          children={() => <StreamingPage setIsHost={setIsHost} setIsJoined={setIsJoined} isHost={isHost} isJoined={isJoined} />}
         />
       </Stack.Navigator>
     </NavigationContainer>

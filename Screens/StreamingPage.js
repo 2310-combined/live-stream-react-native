@@ -1,10 +1,10 @@
 import {View, Text, StyleSheet} from 'react-native';
 import {LiveStream} from '../Components/LiveStream';
 
-const StreamingPage = ({isHost, isJoined, setIsJoined}) => {
+const StreamingPage = ({setIsHost, isHost, isJoined, setIsJoined}) => {
   return (
     <View style={styles.container}>
-      <LiveStream setIsJoined={setIsJoined} isHost={isHost} isJoined={isJoined} />
+      <LiveStream setIsHost={setIsHost} setIsJoined={setIsJoined} isHost={isHost} isJoined={isJoined} />
     </View>
   );
 };
