@@ -7,6 +7,7 @@ import {useState} from 'react';
 
 const Stack = createNativeStackNavigator();
 
+
 export default function App() {
   const [isJoined, setIsJoined] = useState(false); // Indicates if the local user has joined the channel
   const [isHost, setIsHost] = useState(false); // Client role
