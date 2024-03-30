@@ -5,8 +5,6 @@ import Geolocation from '@react-native-community/geolocation';
 import firebase from '@react-native-firebase/app';
 import database from '@react-native-firebase/database';
 
-
-
 export default function LiveMap() {
   
   if (!firebase.apps.length) {
@@ -74,8 +72,8 @@ export default function LiveMap() {
           setRegion({
             latitude: lastLocation.latitude,
             longitude: lastLocation.longitude,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
+            latitudeDelta: 0.0015,
+            longitudeDelta: 0.0015,
           });
           }
       });
