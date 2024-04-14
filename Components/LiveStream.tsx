@@ -1,5 +1,5 @@
 import React, {useRef, useState, useEffect} from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {Platform} from 'react-native';
 import {
   ClientRoleType,
@@ -18,7 +18,17 @@ const token =
   '007eJxTYLjeI/Znrt5vsUObX5nJbq8/dznOXHTSH0aBl9Uc8z66qTEqMBimpRhZGJqbJaakWpgkJRokGqekmCaaW1gkm5iYmFkmGgVxpDUEMjIo9pxlZmSAQBCfhaEktbiEgQEATEMemw==';
 const uid = 0;
 
-export const LiveStream = ({setIsHost, isJoined, isHost, setIsJoined, setTimestamps, setTripCoordinates, sendDataToBackend}) => {
+type LiveStreamProps = {
+  setIsHost: React.Dispatch<React.SetStateAction<boolean>>,
+  isJoined: boolean,
+  isHost: boolean,
+  setIsJoined: React.Dispatch<React.SetStateAction<boolean>>,
+  setTimestamps: React.Dispatch<React.SetStateAction<string[]>>,
+  setTripCoordinates: React.Dispatch<React.SetStateAction<string[]>>,
+  sendDataToBackend: React.Dispatch<React.SetStateAction<any>>
+}
+
+export const LiveStream: React.FC<LiveStreamProps> = ({setIsHost, isJoined, isHost, setIsJoined, setTimestamps, setTripCoordinates, sendDataToBackend}) => {
   const navigation = useNavigation();
   const agoraEngineRef = useRef<IRtcEngine>();
   const [remoteUid, setRemoteUid] = useState(0); 
@@ -90,7 +100,7 @@ export const LiveStream = ({setIsHost, isJoined, isHost, setIsJoined, setTimesta
       setIsJoined(false);
       setIsHost(false);
       showMessage('You left the channel');
-      sendDataToBackend();
+      // sendDataToBackend();
       navigation.navigate('Home');
     } catch (e) {
       console.log(e);

@@ -70,7 +70,7 @@ export default function App() {
           name="StreamingPage"
           children={() => (
             <StreamingPage
-              setTimestamps={setTimestamps}
+              setTripCoordinates={setTripCoordinates}
               setTimestamps={setTimestamps}
               setIsHost={setIsHost}
               setIsJoined={setIsJoined}

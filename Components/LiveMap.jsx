@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import MapView, {Marker} from 'react-native-maps';
+import MapView from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 import firebase from '@react-native-firebase/app';
 import database from '@react-native-firebase/database';
-import {get} from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
-export default function LiveMap(tripCoordinates, setTimestamps) {
+export default function LiveMap({ setTripCoordinates, setTimestamps }) {
   if (!firebase.apps.length) {
     firebase.initializeApp();
   }
