@@ -6,7 +6,7 @@ import firebase from '@react-native-firebase/app';
 import database from '@react-native-firebase/database';
 import {get} from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
-export default function LiveMap(tripCoordinates, setTimestamps) {
+export default function LiveMap({setTripCoordinates, setTimestamps}) {
   if (!firebase.apps.length) {
     firebase.initializeApp();
   }

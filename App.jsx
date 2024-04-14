@@ -1,6 +1,7 @@
 import {SafeAreaView, StyleSheet, View} from 'react-native';
 import LandingPage from './Screens/LandingPage';
 import StreamingPage from './Screens/StreamingPage';
+import ViewerPage from './Screens/ViewerPage';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useState} from 'react';
@@ -55,6 +56,8 @@ export default function App() {
     // implement post functionality once BE is running on Heroku
   }
 
+  {tripCoordinates && console.log(tripCoordinates)}
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -71,12 +74,26 @@ export default function App() {
           children={() => (
             <StreamingPage
               setTimestamps={setTimestamps}
-              setTimestamps={setTimestamps}
+              // setTimestamps={setTimestamps}
               setIsHost={setIsHost}
               setIsJoined={setIsJoined}
               isHost={isHost}
               isJoined={isJoined}
               sendDataToBackend={sendDataToBackend}
+            />
+          )}
+        />
+        <Stack.Screen
+          options={{headerTitle: 'Viewer Page'}}
+          name="ViewerPage"
+          children={() => (
+            <ViewerPage
+              // setTimestamps={setTimestamps}
+              // setIsHost={setIsHost}
+              // setIsJoined={setIsJoined}
+              // isHost={isHost}
+              // isJoined={isJoined}
+              // sendDataToBackend={sendDataToBackend}
             />
           )}
         />
