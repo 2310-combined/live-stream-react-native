@@ -74,7 +74,7 @@ export default function App() {
           children={() => (
             <StreamingPage
               setTimestamps={setTimestamps}
-              // setTimestamps={setTimestamps}
+              setTripCoordinates={setTripCoordinates}
               setIsHost={setIsHost}
               setIsJoined={setIsJoined}
               isHost={isHost}
@@ -87,14 +87,7 @@ export default function App() {
           options={{headerTitle: 'Viewer Page'}}
           name="ViewerPage"
           children={() => (
-            <ViewerPage
-              // setTimestamps={setTimestamps}
-              // setIsHost={setIsHost}
-              // setIsJoined={setIsJoined}
-              // isHost={isHost}
-              // isJoined={isJoined}
-              // sendDataToBackend={sendDataToBackend}
-            />
+            <ViewerPage />
           )}
         />
       </Stack.Navigator>

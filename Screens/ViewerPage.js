@@ -4,36 +4,35 @@ import MapView, {Marker} from 'react-native-maps';
 import firebase from '@react-native-firebase/app';
 import database from '@react-native-firebase/database';
 
-function ViewerPage({tripCoordinates}) {
+function ViewerPage() {
   const [streamerLocation, setStreamerLocation] = useState(null);
 
   if (!firebase.apps.length) {
     firebase.initializeApp();
   }
 
-  //logs the streamer's location
   useEffect(() => {
-    streamerLocation && console.log(streamerLocation);
-  }, [streamerLocation]);
-
-  useEffect(() => {
-    const onValueChange = database()
-      .ref('locations')
-      .on('value', snapshot => {
-        const newLocations = snapshot.val();
-
-        if (newLocations) {
-          const locationsArray = Object.values(newLocations);
-          const lastLocation = locationsArray[locationsArray.length - 1];
-          setStreamerLocation(lastLocation);
-        }
-      });
-
-    // Cleanup function
-    return () => {
-      database().ref('locations').off('value', onValueChange);
+    const fetchLastLocation = () => {
+      database()
+        .ref('locations')
+        .orderByChild('timestamp')
+        .limitToLast(1)
+        .once('value')
+        .then(snapshot => {
+          const newLocations = snapshot.val();
+          if (newLocations) {
+            const lastLocation = Object.values(newLocations)[0];
+            setStreamerLocation(lastLocation);
+          }
+        });
     };
-  }, [streamerLocation]);
+
+    fetchLastLocation();
+
+    const intervalId = setInterval(fetchLastLocation, 1000);
+
+    return () => clearInterval(intervalId);
+  }, []);
 
   return (
     <View style={styles.container}>

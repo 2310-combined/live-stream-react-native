@@ -1,5 +1,5 @@
 import React, {useRef, useState, useEffect} from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {Platform} from 'react-native';
 import {
   ClientRoleType,
@@ -154,14 +154,6 @@ const styles = StyleSheet.create({
     zIndex: 999,
     bottom: '5%',
   },
-  // button: {
-  //   paddingHorizontal: 25,
-  //   paddingVertical: 4,
-  //   fontWeight: 'bold',
-  //   color: '#ffffff',
-  //   backgroundColor: '#0055cc',
-  //   margin: 5,
-  // },
   scroll: {
     backgroundColor: '#ffffff',
     width: '100%',
