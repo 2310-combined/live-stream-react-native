@@ -45,10 +45,13 @@ export default function App() {
 
   const backendData = () => {
     return {
-      start_location: getStartLocation(),
-      end_location: getEndLocation(),
-      time_of_trip: getStartTime(),
+      start_location_latitude: getStartLocation().latitude,
+      start_location_longitude: getStartLocation().longitude,
+      end_location_latitude: getEndLocation().latitude,
+      end_location_longitude: getEndLocation().longitude,
       trip_duration: getTripDuration(),
+      time_of_trip: getStartTime(),
+      user_id: 1,
     };
   };
 
