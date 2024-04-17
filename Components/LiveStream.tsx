@@ -164,14 +164,6 @@ const styles = StyleSheet.create({
     zIndex: 999,
     bottom: '5%',
   },
-  // button: {
-  //   paddingHorizontal: 25,
-  //   paddingVertical: 4,
-  //   fontWeight: 'bold',
-  //   color: '#ffffff',
-  //   backgroundColor: '#0055cc',
-  //   margin: 5,
-  // },
   scroll: {
     backgroundColor: '#ffffff',
     width: '100%',
