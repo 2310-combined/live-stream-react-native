@@ -18,11 +18,29 @@ const token =
   '007eJxTYLjeI/Znrt5vsUObX5nJbq8/dznOXHTSH0aBl9Uc8z66qTEqMBimpRhZGJqbJaakWpgkJRokGqekmCaaW1gkm5iYmFkmGgVxpDUEMjIo9pxlZmSAQBCfhaEktbiEgQEATEMemw==';
 const uid = 0;
 
-export const LiveStream = ({setIsHost, isJoined, isHost, setIsJoined, setTimestamps, setTripCoordinates, sendDataToBackend}) => {
+type LiveStreamProps = {
+  setIsHost: React.Dispatch<React.SetStateAction<boolean>>;
+  isJoined: boolean;
+  isHost: boolean;
+  setIsJoined: React.Dispatch<React.SetStateAction<boolean>>;
+  setTimestamps: React.Dispatch<React.SetStateAction<string[]>>;
+  setTripCoordinates: React.Dispatch<React.SetStateAction<string[]>>;
+  sendDataToBackend: React.Dispatch<React.SetStateAction<any>>;
+};
+
+export const LiveStream: React.FC<LiveStreamProps> = ({
+  setIsHost,
+  isJoined,
+  isHost,
+  setIsJoined,
+  setTimestamps,
+  setTripCoordinates,
+  sendDataToBackend,
+}) => {
   const navigation = useNavigation();
   const agoraEngineRef = useRef<IRtcEngine>();
-  const [remoteUid, setRemoteUid] = useState(0); 
-  const [message, setMessage] = useState(''); 
+  const [remoteUid, setRemoteUid] = useState(0);
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     setupVideoSDKEngine();
@@ -90,7 +108,7 @@ export const LiveStream = ({setIsHost, isJoined, isHost, setIsJoined, setTimesta
       setIsJoined(false);
       setIsHost(false);
       showMessage('You left the channel');
-      sendDataToBackend();
+      // sendDataToBackend();
       navigation.navigate('Home');
     } catch (e) {
       console.log(e);
@@ -99,7 +117,14 @@ export const LiveStream = ({setIsHost, isJoined, isHost, setIsJoined, setTimesta
 
   return (
     <View style={styles.main}>
-      <View style={styles.mapContainer}>{isJoined && <LiveMap setTripCoordinates={setTripCoordinates} setTimestamps={setTimestamps} />}</View>
+      <View style={styles.mapContainer}>
+        {isJoined && (
+          <LiveMap
+            setTripCoordinates={setTripCoordinates}
+            setTimestamps={setTimestamps}
+          />
+        )}
+      </View>
       <View style={[styles.btnContainer, {width: isHost ? '40%' : '30%'}]}>
         <CustomButton
           onPress={join}
@@ -179,7 +204,3 @@ const styles = StyleSheet.create({
     fontSize: 90,
   },
 });
-
-function getPermission() {
-  throw new Error('Function not implemented.');
-}

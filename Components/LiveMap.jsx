@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import MapView, {Marker} from 'react-native-maps';
+import MapView from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 import firebase from '@react-native-firebase/app';
 import database from '@react-native-firebase/database';

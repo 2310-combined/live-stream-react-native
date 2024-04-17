@@ -70,13 +70,6 @@ const LandingPage = ({setIsJoined, setIsHost}) => {
             />
           </View>
         </View>
-
-        {/* <Button title="Log In" onPress={() => console.log('log in')} />
-      <Button
-        title="Join as Viewer"
-        onPress={() => console.log('viewer joined') // navigation.navigate('OtherScreen') // navigate to the other screen
-      }
-      /> */}
       </LinearGradient>
     </>
   );
