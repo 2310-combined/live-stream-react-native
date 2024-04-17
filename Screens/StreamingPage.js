@@ -1,10 +1,26 @@
 import {View, Text, StyleSheet} from 'react-native';
 import {LiveStream} from '../Components/LiveStream';
 
-const StreamingPage = ({setIsHost, isHost, isJoined, setIsJoined}) => {
+const StreamingPage = ({
+  setIsHost,
+  isHost,
+  isJoined,
+  setIsJoined,
+  setTimestamps,
+  setTripCoordinates,
+  sendDataToBackend
+}) => {
   return (
     <View style={styles.container}>
-      <LiveStream setIsHost={setIsHost} setIsJoined={setIsJoined} isHost={isHost} isJoined={isJoined} />
+      <LiveStream
+        sendDataToBackend={sendDataToBackend}
+        setTimestamps={setTimestamps}
+        setTripCoordinates={setTripCoordinates}
+        setIsHost={setIsHost}
+        setIsJoined={setIsJoined}
+        isHost={isHost}
+        isJoined={isJoined}
+      />
     </View>
   );
 };

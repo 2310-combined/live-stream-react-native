@@ -1,5 +1,5 @@
 import React, {useRef, useState, useEffect} from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {Platform} from 'react-native';
 import {
   ClientRoleType,
@@ -18,14 +18,13 @@ const token =
   '007eJxTYLjeI/Znrt5vsUObX5nJbq8/dznOXHTSH0aBl9Uc8z66qTEqMBimpRhZGJqbJaakWpgkJRokGqekmCaaW1gkm5iYmFkmGgVxpDUEMjIo9pxlZmSAQBCfhaEktbiEgQEATEMemw==';
 const uid = 0;
 
-export const LiveStream = ({setIsHost, isJoined, isHost, setIsJoined}) => {
+export const LiveStream = ({setIsHost, isJoined, isHost, setIsJoined, setTimestamps, setTripCoordinates, sendDataToBackend}) => {
   const navigation = useNavigation();
-  const agoraEngineRef = useRef<IRtcEngine>(); // Agora engine instance
-  const [remoteUid, setRemoteUid] = useState(0); // Uid of the remote user
-  const [message, setMessage] = useState(''); // Message to the user
+  const agoraEngineRef = useRef<IRtcEngine>();
+  const [remoteUid, setRemoteUid] = useState(0); 
+  const [message, setMessage] = useState(''); 
 
   useEffect(() => {
-    // Initialize Agora engine when the app starts
     setupVideoSDKEngine();
   });
 
@@ -35,7 +34,6 @@ export const LiveStream = ({setIsHost, isJoined, isHost, setIsJoined}) => {
 
   const setupVideoSDKEngine = async () => {
     try {
-      // use the helper function to get permissions
       if (Platform.OS === 'android') {
         await getPermission();
       }
@@ -66,7 +64,6 @@ export const LiveStream = ({setIsHost, isJoined, isHost, setIsJoined}) => {
   };
 
   const join = async () => {
-    // if (isJoined) return;
     try {
       agoraEngineRef.current?.setChannelProfile(
         ChannelProfileType.ChannelProfileLiveBroadcasting,
@@ -93,6 +90,7 @@ export const LiveStream = ({setIsHost, isJoined, isHost, setIsJoined}) => {
       setIsJoined(false);
       setIsHost(false);
       showMessage('You left the channel');
+      sendDataToBackend();
       navigation.navigate('Home');
     } catch (e) {
       console.log(e);
@@ -101,22 +99,13 @@ export const LiveStream = ({setIsHost, isJoined, isHost, setIsJoined}) => {
 
   return (
     <View style={styles.main}>
-      <View style={styles.mapContainer}>{isJoined && <LiveMap />}</View>
+      <View style={styles.mapContainer}>{isJoined && <LiveMap setTripCoordinates={setTripCoordinates} setTimestamps={setTimestamps} />}</View>
       <View style={[styles.btnContainer, {width: isHost ? '40%' : '30%'}]}>
-        {/* <Text onPress={join} style={styles.button}>
-          Join as Host
-        </Text>
-        <Text onPress={join} style={styles.button}>
-          Join as Viewer
-        </Text> */}
         <CustomButton
           onPress={join}
           name={isHost ? 'End Stream' : 'Leave'}
           onPress={leave}
         />
-        {/* <Text onPress={leave} style={styles.button}>
-          Leave
-        </Text> */}
       </View>
       <View
         style={styles.scroll}
@@ -136,11 +125,9 @@ export const LiveStream = ({setIsHost, isJoined, isHost, setIsJoined}) => {
               <Text style={styles.noHostText}>
                 Waiting for a host to start a stream
               </Text>
-              {/* <Text>Remote user uid: {remoteUid}</Text> */}
             </React.Fragment>
           </View>
         )}
-        {/* <Text style={styles.info}>{message}</Text> */}
       </View>
     </View>
   );
@@ -167,14 +154,6 @@ const styles = StyleSheet.create({
     zIndex: 999,
     bottom: '5%',
   },
-  // button: {
-  //   paddingHorizontal: 25,
-  //   paddingVertical: 4,
-  //   fontWeight: 'bold',
-  //   color: '#ffffff',
-  //   backgroundColor: '#0055cc',
-  //   margin: 5,
-  // },
   scroll: {
     backgroundColor: '#ffffff',
     width: '100%',

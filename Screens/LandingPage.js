@@ -65,7 +65,7 @@ const LandingPage = ({setIsJoined, setIsHost}) => {
               onPress={() => {
                 setIsHost(false);
                 setIsJoined(true);
-                navigation.navigate('StreamingPage')
+                navigation.navigate('ViewerPage')
               }}
             />
           </View>
