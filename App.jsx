@@ -59,8 +59,6 @@ export default function App() {
     // implement post functionality once BE is running on Heroku
   }
 
-  {tripCoordinates && console.log(tripCoordinates)}
-
   return (
     <NavigationContainer>
       <Stack.Navigator>
