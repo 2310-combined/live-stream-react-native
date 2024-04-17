@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, View, Text, Image} from 'react-native';
 import MapView, {Marker} from 'react-native-maps';
 import firebase from '@react-native-firebase/app';
 import database from '@react-native-firebase/database';
@@ -52,7 +52,12 @@ function ViewerPage() {
             }}
             title={"Streamer's Location"}
             description={'This is the location of the streamer'}
-          />
+          >
+            <Image
+              source={require('../assets/marker.png')}
+              style={styles.markerImage}
+            />
+          </Marker>
         </MapView>
       )}
       <View>
@@ -74,4 +79,8 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '50%',
   },
+  markerImage: {
+    height: 100,
+    width: 100,
+  }
 });
