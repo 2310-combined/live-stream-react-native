@@ -3,8 +3,15 @@ import {StyleSheet, View, Text, Image} from 'react-native';
 import MapView, {Marker} from 'react-native-maps';
 import firebase from '@react-native-firebase/app';
 import database from '@react-native-firebase/database';
+import { LiveStream } from '../Components/LiveStream';
 
-function ViewerPage() {
+const ViewerPage = ({
+  isHost,
+  setIsHost,
+  isJoined,
+  setIsJoined,
+  sendDataToBackend
+}) => {
   const [streamerLocation, setStreamerLocation] = useState(null);
 
   if (!firebase.apps.length) {
@@ -42,8 +49,8 @@ function ViewerPage() {
           region={{
             latitude: streamerLocation.latitude,
             longitude: streamerLocation.longitude,
-            latitudeDelta: 0.0022,
-            longitudeDelta: 0.0021,
+            latitudeDelta: 0.0013,
+            longitudeDelta: 0.0013,
           }}>
           <Marker
             coordinate={{
@@ -60,9 +67,13 @@ function ViewerPage() {
           </Marker>
         </MapView>
       )}
-      <View>
-        <Text>This is where the stream will go</Text>
-      </View>
+      <LiveStream
+        sendDataToBackend={sendDataToBackend}
+        setIsHost={setIsHost}
+        setIsJoined={setIsJoined}
+        isHost={isHost}
+        isJoined={isJoined}
+      />
     </View>
   );
 }
@@ -77,7 +88,7 @@ const styles = StyleSheet.create({
   },
   map: {
     width: '100%',
-    height: '50%',
+    height: '30%',
   },
   markerImage: {
     height: 100,

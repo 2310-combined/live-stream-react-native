@@ -8,15 +8,9 @@ import {
   RtcSurfaceView,
   ChannelProfileType,
 } from 'react-native-agora';
-import LiveMap from './LiveMap';
-import {CustomButton} from './CustomButton';
-import {useNavigation} from '@react-navigation/native';
-
-const appId = '1fd28176ade84ba0a3dd5a788c44469a';
-const channelName = 'test';
-const token =
-  '007eJxTYLjeI/Znrt5vsUObX5nJbq8/dznOXHTSH0aBl9Uc8z66qTEqMBimpRhZGJqbJaakWpgkJRokGqekmCaaW1gkm5iYmFkmGgVxpDUEMjIo9pxlZmSAQBCfhaEktbiEgQEATEMemw==';
-const uid = 0;
+import { CustomButton } from './CustomButton';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
 
 type LiveStreamProps = {
   setIsHost: React.Dispatch<React.SetStateAction<boolean>>;
@@ -28,6 +22,16 @@ type LiveStreamProps = {
   sendDataToBackend: React.Dispatch<React.SetStateAction<any>>;
 };
 
+type RootStackParams = {
+  Home: undefined;
+}
+
+const appId = 'ca72c7a8387f4ad48e50a54dbef844f1';
+const channelName = 'test';
+const token =
+  '007eJxTYFie3Pabz8mJKzw0u0TsYSSz7KHiw4/e1/050ygncsO0/ooCQ3KiuVGyeaKFsYV5mkliiolFqqlBoqlJSlJqmoWJSZphZbNCWkMgI4PigvMsjAwQCOKzMISkFpcwMAAAJMsfEA==';
+const uid = 0;
+
 export const LiveStream: React.FC<LiveStreamProps> = ({
   setIsHost,
   isJoined,
@@ -37,7 +41,7 @@ export const LiveStream: React.FC<LiveStreamProps> = ({
   setTripCoordinates,
   sendDataToBackend,
 }) => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
   const agoraEngineRef = useRef<IRtcEngine>();
   const [remoteUid, setRemoteUid] = useState(0);
   const [message, setMessage] = useState('');
@@ -53,7 +57,7 @@ export const LiveStream: React.FC<LiveStreamProps> = ({
   const setupVideoSDKEngine = async () => {
     try {
       if (Platform.OS === 'android') {
-        await getPermission();
+        // await getPermission();
       }
       agoraEngineRef.current = createAgoraRtcEngine();
       const agoraEngine = agoraEngineRef.current;
@@ -109,7 +113,7 @@ export const LiveStream: React.FC<LiveStreamProps> = ({
       setIsHost(false);
       showMessage('You left the channel');
       // sendDataToBackend();
-      navigation.navigate('Home');
+      navigation.navigate('Home' as keyof RootStackParams);
     } catch (e) {
       console.log(e);
     }
@@ -117,31 +121,20 @@ export const LiveStream: React.FC<LiveStreamProps> = ({
 
   return (
     <View style={styles.main}>
-      <View style={styles.mapContainer}>
-        {isJoined && (
-          <LiveMap
-            setTripCoordinates={setTripCoordinates}
-            setTimestamps={setTimestamps}
-          />
-        )}
-      </View>
       <View style={[styles.btnContainer, {width: isHost ? '40%' : '30%'}]}>
         <CustomButton
-          onPress={join}
           name={isHost ? 'End Stream' : 'Leave'}
           onPress={leave}
         />
       </View>
-      <View
-        style={styles.scroll}
-        contentContainerStyle={styles.scrollContainer}>
+      <View >
         {isJoined && isHost && (
           <React.Fragment key={0}>
             <RtcSurfaceView canvas={{uid: 0}} style={styles.videoView} />
           </React.Fragment>
         )}
         {isJoined && !isHost && remoteUid !== 0 && (
-          <View style={styles.scroll}>
+          <View>
             <React.Fragment key={remoteUid}>
               <RtcSurfaceView
                 canvas={{uid: remoteUid}}
@@ -178,15 +171,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     zIndex: 999,
     bottom: '5%',
-  },
-  scroll: {
-    backgroundColor: '#ffffff',
-    width: '100%',
-    flex: 1,
-  },
-  scrollContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   videoView: {
     width: '100%',
