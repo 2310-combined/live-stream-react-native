@@ -13,9 +13,8 @@ const StreamingPage = ({
   setIsJoined,
   setTimestamps,
   setTripCoordinates,
-  sendDataToBackend
+  sendDataToBackend,
 }) => {
-
   if (!firebase.apps.length) {
     firebase.initializeApp();
   }
@@ -67,18 +66,18 @@ const StreamingPage = ({
   return (
     <View style={styles.container}>
       <MapView
+        testID="map"
         style={styles.map}
         region={region}
         showsUserLocation={true}
-        followsUserLocation={true}
-      ></MapView>
+        followsUserLocation={true}></MapView>
       <LiveStream
         sendDataToBackend={sendDataToBackend}
         setIsHost={setIsHost}
         setIsJoined={setIsJoined}
         isHost={isHost}
         isJoined={isJoined}
-        />
+      />
     </View>
   );
 };

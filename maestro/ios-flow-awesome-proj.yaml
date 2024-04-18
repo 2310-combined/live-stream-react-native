@@ -1,4 +1,12 @@
 appId: org.reactjs.native.example.AwesomeProject
 ---
 - launchApp
-- tapOn: "Join as Viewer"
+- tapOn: 'Join as Viewer'
+- assertVisible:
+    id: 'map'
+- tapOn: "Leave"
+
+- tapOn: 'Join as Host'
+- assertVisible:
+    id: 'map'
+- tapOn: "End Stream"
