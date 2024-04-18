@@ -128,16 +128,14 @@ export const LiveStream: React.FC<LiveStreamProps> = ({
           onPress={leave}
         />
       </View>
-      <View
-        style={styles.scroll}
-        contentContainerStyle={styles.scrollContainer}>
+      <View >
         {isJoined && isHost && (
           <React.Fragment key={0}>
             <RtcSurfaceView canvas={{uid: 0}} style={styles.videoView} />
           </React.Fragment>
         )}
         {isJoined && !isHost && remoteUid !== 0 && (
-          <View style={styles.scroll}>
+          <View>
             <React.Fragment key={remoteUid}>
               <RtcSurfaceView
                 canvas={{uid: remoteUid}}
@@ -174,15 +172,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     zIndex: 999,
     bottom: '5%',
-  },
-  scroll: {
-    backgroundColor: '#ffffff',
-    width: '100%',
-    flex: 1,
-  },
-  scrollContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   videoView: {
     width: '100%',

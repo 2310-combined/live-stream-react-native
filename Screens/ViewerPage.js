@@ -6,8 +6,8 @@ import database from '@react-native-firebase/database';
 import { LiveStream } from '../Components/LiveStream';
 
 const ViewerPage = ({
-  setIsHost,
   isHost,
+  setIsHost,
   isJoined,
   setIsJoined,
   sendDataToBackend

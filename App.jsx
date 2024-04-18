@@ -57,7 +57,7 @@ export default function App() {
 
   const sendDataToBackend = () => {
     // implement post functionality once BE is running on Heroku
-  }
+  };
 
   return (
     <NavigationContainer>
@@ -70,25 +70,31 @@ export default function App() {
           )}
         />
         <Stack.Screen
-          options={{headerTitle: 'Streaming Page', headerShown: true}}
+          options={{headerTitle: 'Streaming Page', headerShown: false}}
           name="StreamingPage"
           children={() => (
             <StreamingPage
               setTimestamps={setTimestamps}
               setTripCoordinates={setTripCoordinates}
-              setIsHost={setIsHost}
-              setIsJoined={setIsJoined}
               isHost={isHost}
+              setIsHost={setIsHost}
               isJoined={isJoined}
+              setIsJoined={setIsJoined}
               sendDataToBackend={sendDataToBackend}
             />
           )}
         />
         <Stack.Screen
-          options={{headerTitle: 'Viewer Page'}}
+          options={{headerTitle: 'Viewer Page', headerShown: false}}
           name="ViewerPage"
           children={() => (
-            <ViewerPage />
+            <ViewerPage
+              isHost={isHost}
+              setIsHost={setIsHost}
+              isJoined={isJoined}
+              setIsJoined={setIsJoined}
+              sendDataToBackend={sendDataToBackend}
+            />
           )}
         />
       </Stack.Navigator>
