@@ -1,0 +1,4 @@
+appId: org.reactjs.native.example.AwesomeProject
+---
+- launchApp
+- tapOn: "Join as Viewer"
