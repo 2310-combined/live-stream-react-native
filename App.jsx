@@ -70,7 +70,7 @@ export default function App() {
           )}
         />
         <Stack.Screen
-          options={{headerTitle: '', headerShown: false}}
+          options={{headerTitle: 'Streaming Page', headerShown: true}}
           name="StreamingPage"
           children={() => (
             <StreamingPage

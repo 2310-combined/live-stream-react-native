@@ -3,8 +3,15 @@ import {StyleSheet, View, Text, Image} from 'react-native';
 import MapView, {Marker} from 'react-native-maps';
 import firebase from '@react-native-firebase/app';
 import database from '@react-native-firebase/database';
+import { LiveStream } from '../Components/LiveStream';
 
-function ViewerPage() {
+const ViewerPage = ({
+  setIsHost,
+  isHost,
+  isJoined,
+  setIsJoined,
+  sendDataToBackend
+}) => {
   const [streamerLocation, setStreamerLocation] = useState(null);
 
   if (!firebase.apps.length) {
@@ -60,9 +67,13 @@ function ViewerPage() {
           </Marker>
         </MapView>
       )}
-      <View>
-        <Text>This is where the stream will go</Text>
-      </View>
+      <LiveStream
+        sendDataToBackend={sendDataToBackend}
+        setIsHost={setIsHost}
+        setIsJoined={setIsJoined}
+        isHost={isHost}
+        isJoined={isJoined}
+      />
     </View>
   );
 }
