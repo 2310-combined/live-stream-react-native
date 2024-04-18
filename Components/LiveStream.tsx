@@ -123,7 +123,6 @@ export const LiveStream: React.FC<LiveStreamProps> = ({
     <View style={styles.main}>
       <View style={[styles.btnContainer, {width: isHost ? '40%' : '30%'}]}>
         <CustomButton
-          // onPress={join}
           name={isHost ? 'End Stream' : 'Leave'}
           onPress={leave}
         />

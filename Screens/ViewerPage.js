@@ -49,8 +49,8 @@ const ViewerPage = ({
           region={{
             latitude: streamerLocation.latitude,
             longitude: streamerLocation.longitude,
-            latitudeDelta: 0.0022,
-            longitudeDelta: 0.0021,
+            latitudeDelta: 0.0013,
+            longitudeDelta: 0.0013,
           }}>
           <Marker
             coordinate={{
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
   },
   map: {
     width: '100%',
-    height: '50%',
+    height: '30%',
   },
   markerImage: {
     height: 100,

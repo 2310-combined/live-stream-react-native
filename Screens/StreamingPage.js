@@ -39,8 +39,8 @@ const StreamingPage = ({
         setRegion({
           latitude,
           longitude,
-          latitudeDelta: 0.0015,
-          longitudeDelta: 0.0015,
+          latitudeDelta: 0.0013,
+          longitudeDelta: 0.0013,
         });
 
         const locationRef = database().ref('locations');
@@ -93,6 +93,6 @@ const styles = StyleSheet.create({
   },
   map: {
     width: '100%',
-    height: '50%',
+    height: '30%',
   },
 });
